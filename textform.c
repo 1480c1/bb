@@ -183,7 +183,7 @@ static char *text = "#cWell we've reached the end of this demo. But #bnot#n the 
 "kupsaf@feld.cvut.cz (Filip Kupsa)\n"
 "hubicka@freesoft.cz (Jan Hubicka)\n"
 "titania@horac.ta.jcu.cz (Mojmir Svoboda)\n"
-"toman@artax.karlin.mff.cuni.cz (Kamil Toman)\n"
+"ktoman@email.cz (Kamil Toman)\n"
 "#f"
 "\n"
 "#l\n"

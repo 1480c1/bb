@@ -86,4 +86,4 @@
 /* Version number of package */
 #define VERSION "1.3.0"
 
-/* #undef HAVE_LIBMIKMOD */
+#define HAVE_LIBMIKMOD 1

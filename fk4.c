@@ -1,10 +1,10 @@
 /*
  * BB: The portable demo
  *
- * (C) 1997 by AA-group (e-mail: aa@horac.ta.jcu.cz)
+ * (C) 1997-2001 by aa-group (http://aa-project.sourceforge.net)
  *
- * 3rd August 1997
- * version: 1.2 [final3]
+ * Originally released: 3rd August 1997
+ * version: 1.3 [final4]
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public Licences as by published
