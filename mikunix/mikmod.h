@@ -45,7 +45,7 @@
 #define mikbannerdriver \
 " - Sun/Solaris driver by Valtteri Vuorikoski <vuori@sci.fi>\n"
 
-#elif defined(__alpha)
+#elif (defined(__alpha) && !defined(linux))
 #define mikbannerdriver \
 " - AudioFile driver by Roine Gustafsson <e93_rog@e.kth.se>\n"
 
