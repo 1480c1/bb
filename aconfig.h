@@ -84,6 +84,6 @@
 #define PACKAGE "bb"
 
 /* Version number of package */
-#define VERSION "1.3.0"
+#define VERSION "1.3"
 
-#define HAVE_LIBMIKMOD 1
+/* #undef HAVE_LIBMIKMOD */

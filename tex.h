@@ -28,5 +28,6 @@ extern void disp3d(void);
 extern void set_zbuff(void);
 extern void unset_zbuff(void);
 
-extern int alfa,beta,gama,centerx,centery,centerz;
+extern unsigned int alfa,beta,gama;
+extern int centerx,centery,centerz;
 extern float zoom;

@@ -46,7 +46,6 @@
 
 typedef unsigned char byte;
 typedef unsigned short int word;
-typedef unsigned long dword;
 typedef struct {
     unsigned short int x, y;
 } INFO;
@@ -61,7 +60,7 @@ typedef TRANSFORMED TRANS[MaxFaces][3];
 
 static TBL sinn, coss;
 static int nFaces;
-dword alfa, beta, gama;
+unsigned int alfa, beta, gama;
 int centerx, centery, centerz;
 float zoom = 2.0;
 static byte *envmapa;
