@@ -75,7 +75,8 @@ CFLAGS = @CFLAGS@ -D SOUNDDIR=\"$(pkgdatadir)\"
 bin_PROGRAMS = bb
 bb_SOURCES = autopilo.c backconv.c bb.c credits.c credits2.c ctrl87.c fk1.c fk2.c fk3.c fk4.c formulas.c hh1.c hh2.c hh3.c hh4.c image.c julia.c kt1.c kt2.c kt3.c kt4.c main.c messager.c minilzo.c ms1.c ms2.c ms3.c ms4.c print.c scene1.c scene2.c scene3.c scene4.c scene5.c scene7.c scene8.c scene9.c tex.c textform.c timers.c uncompfn.c zeb.c zoom.c
 pkgdata_DATA = @SOUNDFILES@
-EXTRA_DIST = README.LZO bb.s3m bb2.s3m bb3.s3m acconfig.h bb.lsm acconfig.h autopilo.h bb.h complex.h config.h ctrl87.h formulas.h image.h minilzo.h mylzo.h patnik.h tex.h timers.h torus.h ui.h zoom.h
+EXTRA_DIST = README.LZO bb.s3m bb2.s3m bb3.s3m acconfig.h bb.lsm acconfig.h autopilo.h bb.h complex.h config.h ctrl87.h formulas.h image.h minilzo.h mylzo.h patnik.h tex.h timers.h torus.h ui.h zoom.h bb.1
+man_MANS = bb.1
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = aconfig.h
@@ -99,6 +100,10 @@ bb_LDFLAGS =
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+man1dir = $(mandir)/man1
+MANS = $(man_MANS)
+
+NROFF = nroff
 DATA =  $(pkgdata_DATA)
 
 DIST_COMMON =  README ./stamp-h.in AUTHORS COPYING ChangeLog INSTALL \
@@ -213,6 +218,45 @@ maintainer-clean-compile:
 bb: $(bb_OBJECTS) $(bb_DEPENDENCIES)
 	@rm -f bb
 	$(LINK) $(bb_LDFLAGS) $(bb_OBJECTS) $(bb_LDADD) $(LIBS)
+
+install-man1:
+	$(mkinstalldirs) $(DESTDIR)$(man1dir)
+	@list='$(man1_MANS)'; \
+	l2='$(man_MANS)'; for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  if test -f $(srcdir)/$$i; then file=$(srcdir)/$$i; \
+	  else file=$$i; fi; \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst"; \
+	  $(INSTALL_DATA) $$file $(DESTDIR)$(man1dir)/$$inst; \
+	done
+
+uninstall-man1:
+	@list='$(man1_MANS)'; \
+	l2='$(man_MANS)'; for i in $$l2; do \
+	  case "$$i" in \
+	    *.1*) list="$$list $$i" ;; \
+	  esac; \
+	done; \
+	for i in $$list; do \
+	  ext=`echo $$i | sed -e 's/^.*\\.//'`; \
+	  inst=`echo $$i | sed -e 's/\\.[0-9a-z]*$$//'`; \
+	  inst=`echo $$inst | sed '$(transform)'`.$$ext; \
+	  echo " rm -f $(DESTDIR)$(man1dir)/$$inst"; \
+	  rm -f $(DESTDIR)$(man1dir)/$$inst; \
+	done
+install-man: $(MANS)
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-man1
+uninstall-man:
+	@$(NORMAL_UNINSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) uninstall-man1
 
 install-pkgdataDATA: $(pkgdata_DATA)
 	@$(NORMAL_INSTALL)
@@ -361,20 +405,21 @@ all-recursive-am: aconfig.h
 install-exec-am: install-binPROGRAMS
 install-exec: install-exec-am
 
-install-data-am: install-pkgdataDATA
+install-data-am: install-man install-pkgdataDATA
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am: uninstall-binPROGRAMS uninstall-pkgdataDATA
+uninstall-am: uninstall-binPROGRAMS uninstall-man uninstall-pkgdataDATA
 uninstall: uninstall-am
-all-am: Makefile $(PROGRAMS) $(DATA) aconfig.h
+all-am: Makefile $(PROGRAMS) $(MANS) $(DATA) aconfig.h
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(bindir) $(DESTDIR)$(pkgdatadir)
+	$(mkinstalldirs)  $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)/man1 \
+		$(DESTDIR)$(pkgdatadir)
 
 
 mostlyclean-generic:
@@ -418,7 +463,8 @@ maintainer-clean: maintainer-clean-am
 mostlyclean-binPROGRAMS distclean-binPROGRAMS clean-binPROGRAMS \
 maintainer-clean-binPROGRAMS uninstall-binPROGRAMS install-binPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile uninstall-pkgdataDATA install-pkgdataDATA tags \
+maintainer-clean-compile install-man1 uninstall-man1 install-man \
+uninstall-man uninstall-pkgdataDATA install-pkgdataDATA tags \
 mostlyclean-tags distclean-tags clean-tags maintainer-clean-tags \
 distdir mostlyclean-depend distclean-depend clean-depend \
 maintainer-clean-depend info-am info dvi-am dvi check check-am \
