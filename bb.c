@@ -277,7 +277,6 @@ int bb(void)
 	    if (quitnow)
 		goto quit;
 	    vezen(&ms1, &ms2, &ms3, &ms4);
-	    aa_resize (context);
 	    messager("MOJMIR SVOBODA known as MS, TiTania, MSS, Bill\n"
 		     "birth: ??, Tabor, Czech Republic, sex: ? male ?\n"
 		     "\n"
