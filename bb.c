@@ -177,9 +177,9 @@ bbwait (int maxtime)
       bbupdate ();
       t = tl_process_group (syncgroup, NULL);
       wait = endtime - TIME;
-      if (t < wait)
-	wait = t;
-      tl_sleep (wait);
+      if (wait < t)
+	t = wait;
+      tl_sleep (t);
     }
   starttime = endtime;
 }
@@ -189,6 +189,7 @@ void bbflushwait(int maxtime)
     int wait;
     if (finish_stuff)
 	return;
+    bbupdate();
     wait = maxtime + starttime - TIME;
     if (wait > 0) {
 	aa_flush(context);
