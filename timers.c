@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <libc.h>
 #else
-#include <config.h>
+#include "aconfig.h"
 #ifdef HAVE_GETTIMEOFDAY
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -45,7 +45,6 @@
 #include <time.h>
 #endif
    /*HAVE_TIME_H*/
-#include <aconfig.h>
 #include <malloc.h>
 #include <stdio.h>
 #include <unistd.h>
